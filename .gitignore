@@ -10,3 +10,8 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 supabase/.temp/*
 src/lib/database.d.ts
+
+# Supabase
+.branches
+.temp
+.env
