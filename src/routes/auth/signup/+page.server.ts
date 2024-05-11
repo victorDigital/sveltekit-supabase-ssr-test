@@ -9,45 +9,46 @@ export const load = async ({ locals: { getSession } }) => {
 };
 
 export const actions = {
-	signin: async ({ request, locals: { supabase } }) => {
+	signup: async ({ request, url, locals: { supabase } }) => {
 		const formData = await request.formData();
 		const email = formData.get("email") as string;
 		const password = formData.get("password") as string;
+		const userName = formData.get("username") as string;
 
-		if (!email || !password) {
+		if (!email || !password || !userName) {
 			return fail(400, {
-				error: "Please enter an email and password",
+				error: "Please enter an username, email and password",
 				data: {
 					email,
+					userName,
 				},
 			});
 		}
 
-		const { error } = await supabase.auth.signInWithPassword({
+		//if the username is less than 3 characters or more than 20 characters reject the request
+		if (userName.length < 3 || userName.length > 20) {
+			return fail(400, {
+				error: "Username must be between 3 and 20 characters",
+				data: {
+					email,
+					userName,
+				},
+			});
+		}
+
+		const { error } = await supabase.auth.signUp({
 			email,
 			password,
+			options: {
+				emailRedirectTo: `${url.origin}/app`,
+				data: { display_name: userName },
+			},
 		});
 
-		if (error) {
-			if (error instanceof AuthApiError && error.status === 400) {
-				return fail(400, {
-					error: "Invalid credentials.",
-					data: {
-						email,
-					},
-				});
-			}
-			return fail(500, {
-				error: "Server error. Try again later.",
-				data: {
-					email,
-				},
-			});
-		}
-
-		/* Login successful, redirect. */
-		redirect(303, "/app");
+		if (error) console.error(error);
+		else return { message: "Please check your email to confirm your signup." };
 	},
+
 	oauth: async ({ request, url, locals: { supabase } }) => {
 		const formData = await request.formData();
 		const provider = formData.get("provider") as Provider;
@@ -67,21 +68,5 @@ export const actions = {
 
 		/* Now authorize sign-in on browser. */
 		if (data.url) redirect(303, data.url);
-	},
-	anon: async ({ locals: { supabase } }) => {
-		const { error } = await supabase.auth.signInAnonymously();
-
-		if (error) {
-			return fail(500, {
-				error: "Server error. Try again later.",
-			});
-		}
-
-		/* Login successful, redirect. */
-		redirect(303, "/app");
-	},
-	signout: async ({ locals: { supabase } }) => {
-		await supabase.auth.signOut();
-		redirect(303, "/");
 	},
 };
