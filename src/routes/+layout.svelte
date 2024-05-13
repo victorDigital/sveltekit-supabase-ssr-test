@@ -5,10 +5,6 @@
 	import { ModeWatcher, setMode, userPrefersMode, systemPrefersMode } from "mode-watcher";
 	import { ArrowTopRight, ArrowUp } from "svelte-radix";
 
-	//make a function that sets the apropiate mode
-	//based on the user's preference
-	console.log($userPrefersMode);
-	console.log($systemPrefersMode);
 	function setModeBasedOnUserPreference() {
 		if ($userPrefersMode === "dark" || $systemPrefersMode === "dark") {
 			// disabled for testing

@@ -61,6 +61,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 					app_metadata: {},
 					aud: "authenticated",
 					created_at: "",
+					is_anonymous: decoded.is_anonymous,
 					id: decoded.sub,
 					user_metadata: {
 						avatar_url: decoded.user_metadata.avatar_url,
