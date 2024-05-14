@@ -3,6 +3,8 @@ import { fail } from "@sveltejs/kit";
 
 export const prerender = true;
 
+export const config = { isr: 60 };
+
 export const load = async ({ locals: { supabase } }) => {
 	//get all the sketches tha are public
 	let sketches: Tables<"sketches">[] = [];
