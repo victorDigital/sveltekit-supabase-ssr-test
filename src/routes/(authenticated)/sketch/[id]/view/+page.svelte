@@ -3,16 +3,12 @@
 	import type * as Monaco from "monaco-editor/esm/vs/editor/editor.api";
 	import Button from "$lib/components/ui/button/button.svelte";
 	import { Label } from "$lib/components/ui/label/index.js";
-	import { Switch } from "$lib/components/ui/switch/index.js";
 	import * as Resizable from "$lib/components/ui/resizable";
-	import { Play, Stop, Update, Upload } from "svelte-radix";
-	import * as ToggleGroup from "$lib/components/ui/toggle-group/index.js";
+	import { Play, Stop } from "svelte-radix";
 	import { onDestroy, onMount } from "svelte";
 	import LayoutIcons from "$lib/components/LayoutIcons.svelte";
 	import type { PaneAPI } from "paneforge";
 	import { mode } from "mode-watcher";
-	import { enhance } from "$app/forms";
-	import Input from "$lib/components/ui/input/input.svelte";
 
 	export let data: PageData;
 
@@ -22,18 +18,18 @@
 	const decodedSketch = atob(data.sketch?.sketch_b64 ?? "");
 	let sketch = decodedSketch;
 	let sketchTitle = data.sketch?.title ?? "";
-	let sketchIsPublic = data.sketch?.is_public;
 
 	onMount(async () => {
 		// Import our 'monaco.ts' file here
 		// (onMount() will only be executed in the browser, which is what we want)
-		monaco = (await import("./monaco")).default;
+		monaco = (await import("../monaco")).default;
 
 		// Your monaco instance is ready, let's display some code!
 		const editor = monaco.editor.create(editorContainer, {
 			value: sketch,
 			automaticLayout: true,
 			theme: $mode == "dark" ? "myCustomTheme" : "vs",
+			readOnly: true,
 		});
 		const model = monaco.editor.createModel(sketch, "java");
 		editor.onDidChangeModelContent(() => {
@@ -48,7 +44,6 @@
 	});
 
 	let layoutState = 2;
-	let savingState = false;
 	let sketchState: "playing" | "stopped" = "stopped";
 	let editorPane: PaneAPI;
 	let viewerPane: PaneAPI;
@@ -73,39 +68,9 @@
 	function isInMiddle() {
 		editorPane.isExpanded() && viewerPane.isExpanded() ? (layoutState = 2) : null;
 	}
-
-	async function handleSave() {
-		const form = new FormData();
-		let encodedSketch = btoa(sketch);
-		form.append("sketch", encodedSketch);
-		form.append("is_public", sketchIsPublic ? "public" : "private");
-		form.append("sketch_title", sketchTitle);
-		form.append("sketch_id", data.sketch?.id ?? "");
-		savingState = true;
-		const res = await fetch("?/save", {
-			method: "POST",
-			body: form,
-		});
-		//get the encoded sketch from the response
-		const test = await res.json();
-		sketch = atob(JSON.parse(test.data)[1]);
-		console.log(sketch);
-		const pos = monaco.editor.getModels()[0].getPositionAt(0);
-		monaco.editor.getModels()[0].setValue(sketch);
-		savingState = false;
-	}
-
-	function onKeyDown({ key, ctrlKey, repeat }: { key: string; ctrlKey: boolean; repeat: boolean }) {
-		if (repeat) return;
-		if (ctrlKey && key === "s") {
-			if (!event) return;
-			event.preventDefault();
-			handleSave();
-		}
-	}
 </script>
 
-<div class="flex gap-4 p-4">
+<div class="flex gap-4 p-4 items-center">
 	<Button
 		on:click={() => {
 			sketchState = "playing";
@@ -124,21 +89,8 @@
 		<Switch id="auto-save" />
 		<Label for="auto-save">Auto Save</Label>
 	</div> -->
-	<div class="flex items-center space-x-2">
-		<Switch bind:checked={sketchIsPublic} />
-		<Label for="auto-save">Public</Label>
-	</div>
-	<Input type="text" class="max-w-36" bind:value={sketchTitle} />
+	<Label>{sketchTitle}, by: {data.sketch?.created_by_display_name}</Label>
 	<div class="flex flex-1 items-center space-x-2 justify-end">
-		<form action="?/save" method="post" on:submit|preventDefault={handleSave}>
-			<Button type="submit" size="icon" variant="outline">
-				{#if savingState}
-					<Update class="animate-spin" />
-				{:else}
-					<Upload />
-				{/if}
-			</Button>
-		</form>
 		<div class="border-border border-[1px] space-x-1 flex items-center p-1 rounded-2xl">
 			<Button
 				variant={layoutState == 1 ? "secondary" : "ghost"}
@@ -194,5 +146,3 @@
 		<div class="size-44 bg-white"></div>
 	</Resizable.Pane>
 </Resizable.PaneGroup>
-
-<svelte:window on:keydown={onKeyDown} />

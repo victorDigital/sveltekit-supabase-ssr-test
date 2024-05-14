@@ -72,14 +72,14 @@
 						<DropdownMenu.Separator />
 						{#if session.user.is_anonymous === false}
 							<DropdownMenu.Group>
-								<DropdownMenu.Item>View Sketches</DropdownMenu.Item>
+								<DropdownMenu.Item href="/sketches">View Sketches</DropdownMenu.Item>
 								<DropdownMenu.Item href="/newsketch">New Sketch</DropdownMenu.Item>
 								<DropdownMenu.Item>Settings</DropdownMenu.Item>
 							</DropdownMenu.Group>
 							<DropdownMenu.Separator />
 						{/if}
 						<DropdownMenu.Item>
-							<form method="POST" action="auth?/signout">
+							<form method="POST" action="/auth?/signout">
 								<button class="w-[198px] h-[20px] text-left">Logout</button>
 							</form>
 						</DropdownMenu.Item>

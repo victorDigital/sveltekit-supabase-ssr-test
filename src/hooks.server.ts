@@ -37,7 +37,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 		 */
 		try {
 			const decoded = jwt.verify(session.access_token, JWT_SECRET) as SupabaseJwt;
-			console.log("decoded", decoded);
 
 			/**
 			 * Create a validated session.
