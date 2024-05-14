@@ -1,8 +1,6 @@
 import type { Tables } from "$lib/database.js";
 import { fail } from "@sveltejs/kit";
 
-export const prerender = true;
-
 export const config = { isr: { expiration: 60 } };
 
 export const load = async ({ locals: { supabase } }) => {
