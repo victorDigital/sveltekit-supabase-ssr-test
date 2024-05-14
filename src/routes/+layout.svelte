@@ -49,8 +49,8 @@
 		</p>
 	</div>
 	<div class="flex justify-center items-center gap-4 p-4">
-		<a href="#1" class="text-sm text-gray-500 hover:text-gray-700"> Privacy Policy </a>
-		<a href="#2" class="text-sm text-gray-500 hover:text-gray-700"> Terms of Service </a>
+		<a href="https://voe.dk" class="text-sm text-gray-500 hover:text-gray-700"> Privacy Policy </a>
+		<a href="https://voe.dk" class="text-sm text-gray-500 hover:text-gray-700"> Terms of Service </a>
 		<a href="https://voe.dk" class="text-sm text-gray-500 hover:text-gray-700"> Contact Us </a>
 	</div>
 </footer>
