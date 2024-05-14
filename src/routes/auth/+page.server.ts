@@ -5,7 +5,7 @@ export const load = async ({ locals: { getSession } }) => {
 	const session = await getSession();
 
 	/* User is already logged in. */
-	if (session) redirect(303, "/app");
+	if (session) redirect(303, "/explore");
 };
 
 export const actions = {
@@ -46,7 +46,7 @@ export const actions = {
 		}
 
 		/* Login successful, redirect. */
-		redirect(303, "/app");
+		redirect(303, "/explore");
 	},
 	oauth: async ({ request, url, locals: { supabase } }) => {
 		const formData = await request.formData();
@@ -59,7 +59,7 @@ export const actions = {
 		const { data, error } = await supabase.auth.signInWithOAuth({
 			provider,
 			options: {
-				redirectTo: `${url.origin}/auth/callback?next=/app`,
+				redirectTo: `${url.origin}/auth/callback?next=/explore`,
 			},
 		});
 
@@ -78,7 +78,7 @@ export const actions = {
 		}
 
 		/* Login successful, redirect. */
-		redirect(303, "/app");
+		redirect(303, "/explore");
 	},
 	signout: async ({ locals: { supabase } }) => {
 		await supabase.auth.signOut();

@@ -11,9 +11,9 @@ export const load = async ({ locals: { getSession, supabase } }) => {
 		.select("*")
 		.eq("owned_by", userId)
 		.order("created_at", { ascending: false });
-	if (error) return redirect(500, "/app");
-	if (!data) return redirect(500, "/app");
-	if (data instanceof Array && !data.length) return redirect(307, "/app");
+	if (error) return redirect(500, "/explore");
+	if (!data) return redirect(500, "/explore");
+	if (data instanceof Array && !data.length) return redirect(307, "/explore");
 
 	sketches = data;
 
@@ -26,8 +26,8 @@ export const actions = {
 		const session = await getSession();
 		const formData = await request.formData();
 		const sketchId = formData.get("sketch_id");
-		if (!sketchId) return redirect(500, "/app");
-		if (!session) return redirect(500, "/app");
+		if (!sketchId) return redirect(500, "/explore");
+		if (!session) return redirect(500, "/explore");
 
 		const { data, error } = await supabase.from("sketches").delete().eq("id", sketchId).eq("owned_by", session.user.id);
 	},

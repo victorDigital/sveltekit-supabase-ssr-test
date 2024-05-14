@@ -11,7 +11,7 @@
 <!-- <nav style="border: solid; border-width: 0 0 2px; padding-bottom: 5px;">
 	<a href="/">Home</a>
 	{#if session}
-		<a href="/app">App</a>
+		<a href="/explore">App</a>
 		<a href="/self">Self</a>
 		<img
 			style="width: 32px; height: 32px; border-radius: 9999px;"
@@ -28,7 +28,7 @@
 	class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 	<div class="container flex h-14 max-w-screen-2xl items-center">
 		<div class="mr-4 hidden md:flex items-center">
-			<a href="/app" class="text-lg font-bold">ProcessingWeb</a>
+			<a href="/explore" class="text-lg font-bold">ProcessingWeb</a>
 			{#if session}
 				<a href="/explore" class="ml-4">explore</a>
 			{/if}

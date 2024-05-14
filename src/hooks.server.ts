@@ -79,14 +79,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 	/**
 	 * Only authenticated users can access these paths and their sub-paths.
 	 *
-	 * If you'd rather do this in your routes, see (authenticated)/app/+page.server.ts
+	 * If you'd rather do this in your routes, see (authenticated)/explore/+page.server.ts
 	 * for an example.
 	 */
-	const auth_protected_paths = new Set(["app", "self"]);
+	/* const auth_protected_paths = new Set(["self"]);
 	if (!session && auth_protected_paths.has(event.url.pathname.split("/")[1])) {
 		console.log("Redirecting to /auth");
 		redirect(307, "/auth");
-	}
+	} */
 
 	return resolve(event, {
 		filterSerializedResponseHeaders(name) {

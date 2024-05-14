@@ -5,7 +5,7 @@ export const load = async ({ locals: { getSession } }) => {
 	const session = await getSession();
 
 	/* User is already logged in. */
-	if (session) redirect(303, "/app");
+	if (session) redirect(303, "/explore");
 };
 
 export const actions = {
@@ -40,7 +40,7 @@ export const actions = {
 			email,
 			password,
 			options: {
-				emailRedirectTo: `${url.origin}/app`,
+				emailRedirectTo: `${url.origin}/explore`,
 				data: { display_name: userName },
 			},
 		});
@@ -60,7 +60,7 @@ export const actions = {
 		const { data, error } = await supabase.auth.signInWithOAuth({
 			provider,
 			options: {
-				redirectTo: `${url.origin}/auth/callback?next=/app`,
+				redirectTo: `${url.origin}/auth/callback?next=/explore`,
 			},
 		});
 
@@ -68,5 +68,18 @@ export const actions = {
 
 		/* Now authorize sign-in on browser. */
 		if (data.url) redirect(303, data.url);
+	},
+
+	anon: async ({ locals: { supabase } }) => {
+		const { error } = await supabase.auth.signInAnonymously();
+
+		if (error) {
+			return fail(500, {
+				error: "Server error. Try again later.",
+			});
+		}
+
+		/* Login successful, redirect. */
+		redirect(303, "/explore");
 	},
 };

@@ -14,7 +14,7 @@ export const load = async ({ locals: { getSession, supabase }, params }) => {
 
 	console.log(data);
 	if (data instanceof Array && !data.length) {
-		return redirect(307, "/app");
+		return redirect(307, "/explore");
 	}
 
 	if (!data) {
@@ -22,7 +22,7 @@ export const load = async ({ locals: { getSession, supabase }, params }) => {
 	}
 
 	if (session?.user.id !== data[0].owned_by) {
-		return redirect(307, "/app");
+		return redirect(307, "/explore");
 	}
 
 	sketch = data[0];
