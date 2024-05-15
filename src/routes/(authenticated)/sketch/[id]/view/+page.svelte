@@ -144,6 +144,9 @@
 		collapsedSize={5}
 		bind:pane={viewerPane}
 		onCollapse={() => (layoutState = 3)}>
-		<SketchViewer {sketch} showCanvas={sketchState == "playing"} />
+		{#if sketchState == "playing"}
+			<!-- content here -->
+			<SketchViewer {sketch} showCanvas={sketchState == "playing"} />
+		{/if}
 	</Resizable.Pane>
 </Resizable.PaneGroup>
