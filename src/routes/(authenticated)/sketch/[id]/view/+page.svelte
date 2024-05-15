@@ -9,6 +9,7 @@
 	import LayoutIcons from "$lib/components/LayoutIcons.svelte";
 	import type { PaneAPI } from "paneforge";
 	import { mode } from "mode-watcher";
+	import SketchViewer from "$lib/components/SketchViewer.svelte";
 
 	export let data: PageData;
 
@@ -143,6 +144,6 @@
 		collapsedSize={5}
 		bind:pane={viewerPane}
 		onCollapse={() => (layoutState = 3)}>
-		<div class="size-44 bg-white"></div>
+		<SketchViewer {sketch} showCanvas={sketchState == "playing"} />
 	</Resizable.Pane>
 </Resizable.PaneGroup>

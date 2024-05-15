@@ -13,6 +13,7 @@
 	import { mode } from "mode-watcher";
 	import { enhance } from "$app/forms";
 	import Input from "$lib/components/ui/input/input.svelte";
+	import SketchViewer from "$lib/components/SketchViewer.svelte";
 
 	export let data: PageData;
 
@@ -34,6 +35,8 @@
 			value: sketch,
 			automaticLayout: true,
 			theme: $mode == "dark" ? "myCustomTheme" : "vs",
+			wrappingStrategy: "advanced",
+			wordWrap: "on",
 		});
 		const model = monaco.editor.createModel(sketch, "java");
 		editor.onDidChangeModelContent(() => {
@@ -191,7 +194,9 @@
 		collapsedSize={5}
 		bind:pane={viewerPane}
 		onCollapse={() => (layoutState = 3)}>
-		<div class="size-44 bg-white"></div>
+		{#if sketchState == "playing"}
+			<SketchViewer {sketch} showCanvas={sketchState == "playing"} />
+		{/if}
 	</Resizable.Pane>
 </Resizable.PaneGroup>
 
