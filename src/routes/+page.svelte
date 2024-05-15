@@ -8,7 +8,7 @@
 	<h2 class="text-center text-2xl font-light font-space max-w-lg opacity-75">
 		A place to learn, share, and create with Processing.js. 100% free and open source.
 	</h2>
-	<p class="text-orange-500 opacity-75 font-space text-xs">
+	<p class="text-orange-700 dark:text-orange-400 font-space text-xs">
 		This app is not affiliated with the official Processing Foundation or Processing.js
 	</p>
 	<div class="flex gap-4 mt-8">

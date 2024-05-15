@@ -18,7 +18,7 @@
 
 <div class="container mx-auto mt-20">
 	<div class="flex justify-between md:px-10 items-center">
-		<h1 class="text-3xl font-bold">Explore</h1>
+		<h2 class="text-3xl font-bold">Explore</h2>
 	</div>
 </div>
 

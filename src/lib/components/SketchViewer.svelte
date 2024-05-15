@@ -50,6 +50,21 @@
 		// @ts-ignore
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		showCanvas = false;
+
+		//when the program is stopped, we need to look for and delete the following elements
+		//<span style="position: absolute; left: 0px; opacity: 0; font-family: PjsEmptyFont, fantasy;">AAAAAAAA</span>
+		//<div class="pjsconsole"><div class="dragger"></div><div class="console">hi <br></div><div class="closer">✖</div></div>
+
+		let elements = document.querySelectorAll(
+			"span[style='position: absolute; left: 0px; opacity: 0; font-family: PjsEmptyFont, fantasy;']"
+		);
+		elements.forEach((element) => {
+			element.remove();
+		});
+		let console = document.querySelector(".pjsconsole");
+		if (console) {
+			console.remove();
+		}
 	};
 
 	onMount(() => {
