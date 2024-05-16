@@ -82,7 +82,16 @@ export const handle: Handle = async ({ event, resolve }) => {
 	 * If you'd rather do this in your routes, see (authenticated)/explore/+page.server.ts
 	 * for an example.
 	 */
-	const auth_protected_paths = new Set(["self", "explore", "view", "edit", "settings"]);
+	const auth_protected_paths = new Set([
+		"self",
+		"explore",
+		"view",
+		"edit",
+		"settings",
+		"sketch",
+		"sketches",
+		"newsketch",
+	]);
 	if (!session && auth_protected_paths.has(event.url.pathname.split("/")[1])) {
 		console.log("Redirecting to /auth");
 		redirect(307, "/auth");
